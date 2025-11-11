@@ -15,9 +15,11 @@ import {
 } from "lucide-react";
 
 interface Recommendation {
-  role: string;
-  skills: string[];
-  description: string;
+  stack: string;
+  score: number;
+  reason: string;
+  learn_next: string[];
+  top_techs: string[];
 }
 
 export default function ProfessionalZone() {
@@ -31,6 +33,14 @@ export default function ProfessionalZone() {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
+  const [fitRecommendations, setFitRecommendations] = useState<
+    Recommendation[]
+  >([]);
+  const [growthRecommendations, setGrowthRecommendations] = useState<
+    Recommendation[]
+  >([]);
+  const [frameworks, setFrameworks] = useState<string[]>([]);
+
   const [isLoading, setIsLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
 
@@ -72,31 +82,223 @@ export default function ProfessionalZone() {
   ];
 
   const allSkills = [
-    "JavaScript",
-    "Python",
-    "TypeScript",
-    "Java",
-    "React",
-    "Next.js",
-    "Node.js",
-    "Express.js",
-    "C++",
-    "SQL",
-    "MongoDB",
-    "PostgreSQL",
+    "APL",
+    "APT",
+    "ASP.NET",
+    "ASP.NET CORE",
+    "ASP.NET Core",
     "AWS",
-    "Azure",
-    "GCP",
-    "Docker",
-    "Kubernetes",
-    "Machine Learning",
-    "TensorFlow",
-    "PyTorch",
-    "Git",
-    "Linux",
-    "CI/CD",
-    "Terraform",
+    "Ada",
+    "Alibaba Cloud",
+    "Amazon Redshift",
+    "Amazon Web Services (AWS)",
+    "Angular",
+    "Angular.js",
+    "AngularJS",
     "Ansible",
+    "Apex",
+    "Assembly",
+    "Astro",
+    "Axum",
+    "Bash",
+    "BigQuery",
+    "Blazor",
+    "Bun",
+    "C",
+    "C#",
+    "C++",
+    "COBOL",
+    "CSS",
+    "Cargo",
+    "Cassandra",
+    "Chocolatey",
+    "Clickhouse",
+    "Clojure",
+    "Cloud Firestore",
+    "Cloudflare",
+    "Cobol",
+    "Cockroachdb",
+    "CodeIgniter",
+    "Colocation",
+    "Composer",
+    "Cosmos DB",
+    "Couch DB",
+    "CouchDB",
+    "Couchbase",
+    "Crystal",
+    "Dart",
+    "Databricks",
+    "Databricks SQL",
+    "Datadog",
+    "Datomic",
+    "Delphi",
+    "Deno",
+    "Digital Ocean",
+    "DigitalOcean",
+    "Django",
+    "Docker",
+    "Drupal",
+    "DuckDB",
+    "DynamoDB",
+    "Dynamodb",
+    "Elasticsearch",
+    "Elixir",
+    "Elm",
+    "Erlang",
+    "EventStoreDB",
+    "Express",
+    "F#",
+    "FastAPI",
+    "Fastify",
+    "Firebase",
+    "Firebase Realtime Database",
+    "Firebird",
+    "Flask",
+    "Flow",
+    "Fly.io",
+    "Fortran",
+    "GDScript",
+    "Gatsby",
+    "Gleam",
+    "Go",
+    "Google Cloud",
+    "Google Cloud Platform",
+    "Gradle",
+    "Groovy",
+    "H2",
+    "HTML",
+    "Haskell",
+    "Heroku",
+    "Hetzner",
+    "Homebrew",
+    "Htmx",
+    "IBM Cloud",
+    "IBM Cloud Or Watson",
+    "IBM Cloud or Watson",
+    "IBM DB2",
+    "InfluxDB",
+    "Java",
+    "JavaScript",
+    "Julia",
+    "Keras",
+    "Kotlin",
+    "Kubernetes",
+    "LISP",
+    "Laravel",
+    "Linode",
+    "Lisp",
+    "Lit",
+    "Lua",
+    "MATLAB",
+    "MSBuild",
+    "Make",
+    "Managed Hosting",
+    "MariaDB",
+    "Matlab",
+    "Maven (build tool)",
+    "MicroPython",
+    "Microsoft Access",
+    "Microsoft Azure",
+    "Microsoft SQL Server",
+    "Mojo",
+    "MongoDB",
+    "MySQL",
+    "Neo4J",
+    "Neo4j",
+    "NestJS",
+    "Netlify",
+    "New Relic",
+    "Next.js",
+    "Nim",
+    "Ninja",
+    "Node.js",
+    "NuGet",
+    "NumPy",
+    "Nuxt.js",
+    "OCaml",
+    "OVH",
+    "Objective-C",
+    "OpenShift",
+    "OpenStack",
+    "Oracle",
+    "Oracle Cloud Infrastructure",
+    "Oracle Cloud Infrastructure (OCI)",
+    "PHP",
+    "Pacman",
+    "Pandas",
+    "Perl",
+    "Phoenix",
+    "Pip",
+    "Play Framework",
+    "Pocketbase",
+    "Podman",
+    "Poetry",
+    "PostgreSQL",
+    "PowerShell",
+    "Presto",
+    "Prolog",
+    "Prometheus",
+    "PyTorch",
+    "Python",
+    "PythonAnywhere",
+    "Qwik",
+    "R",
+    "Railway",
+    "Raku",
+    "RavenDB",
+    "React",
+    "React.js",
+    "Redis",
+    "Remix",
+    "Render",
+    "Ruby",
+    "Ruby on Rails",
+    "Rust",
+    "SAS",
+    "SQL",
+    "SQLite",
+    "Scala",
+    "Scaleway",
+    "Scikit-learn",
+    "Shell",
+    "Shell (all shells)",
+    "Snowflake",
+    "Solid.js",
+    "Solidity",
+    "Solr",
+    "Splunk",
+    "Spring",
+    "Spring Boot",
+    "Strapi",
+    "Supabase",
+    "Svelte",
+    "Swift",
+    "Symfony",
+    "TensorFlow",
+    "Terraform",
+    "TiDB",
+    "TypeScript",
+    "Unity",
+    "Unreal Engine",
+    "VBA",
+    "VMware",
+    "Valkey",
+    "Vercel",
+    "Visual Basic (.Net)",
+    "Vite",
+    "Vue.js",
+    "Vultr",
+    "Webpack",
+    "WordPress",
+    "Yandex Cloud",
+    "Yarn",
+    "Yii 2",
+    "Zephyr",
+    "Zig",
+    "jQuery",
+    "now Akamai",
+    "npm",
+    "pnpm",
   ];
 
   const filteredSkills = allSkills.filter((skill) =>
@@ -117,9 +319,62 @@ export default function ProfessionalZone() {
       setFormData((prev) => ({ ...prev, resume: e.target.files![0] }));
     }
   };
+  // 🔹 Step 1: Send PDF to Resume Parser API
+  const uploadResumeAndExtractSkills = async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
 
-  const handleSubmit = () => {
-    // user can submit if either resume uploaded OR form filled
+    try {
+      console.log("🚀 Uploading resume:", file.name);
+
+      const response = await fetch("/api/resume", {
+        method: "POST",
+        body: formData,
+      });
+
+      const text = await response.text();
+      console.log("📦 Raw proxy response:", text);
+
+      if (!response.ok) {
+        console.error("❌ Resume parsing failed:", response.status, text);
+        throw new Error("Resume parsing failed");
+      }
+
+      const data = JSON.parse(text);
+      console.log("🧠 Parsed resume data:", data);
+      return data.skills?.all_skills || [];
+    } catch (error) {
+      console.error("🚨 Error uploading resume:", error);
+      return [];
+    }
+  };
+
+  // 🔹 Step 2: Send extracted skills to Recommender API
+  const getRecommendations = async (skills: string[]) => {
+    const response = await fetch(
+      "https://stackrecommenderproto.onrender.com/recommend/professional",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          all_skills: skills.map((s) => s.toLowerCase()),
+          topk: 5,
+          prefer_low_barrier: false,
+        }),
+      }
+    );
+
+    if (!response.ok) throw new Error("Recommender API failed");
+    const data = await response.json();
+    console.log("Recommendations:", data);
+    setFrameworks(data.frameworks_by_language || []);
+    setRecommendations(data.results || []);
+    setFitRecommendations(data.fit_recommendations || []);
+    setGrowthRecommendations(data.growth_recommendations || []);
+    return data.results || [];
+  };
+
+  const handleSubmit = async () => {
     const formValid =
       formData.country &&
       formData.currentRole &&
@@ -131,61 +386,29 @@ export default function ProfessionalZone() {
     setIsLoading(true);
     setShowResults(false);
 
-    setTimeout(() => {
-      let mockRecommendations: Recommendation[] = [];
+    try {
+      let skillsToUse: string[] = [];
 
       if (formData.resume) {
-        // Simulate resume parsing and recommendations
-        mockRecommendations = [
-          {
-            role: "AI/ML Engineer",
-            description:
-              "Analyze data and develop machine learning models for predictive insights.",
-            skills: ["Python", "TensorFlow", "PyTorch", "Data Science"],
-          },
-          {
-            role: "Cloud DevOps Engineer",
-            description:
-              "Automate deployments and manage cloud infrastructure efficiently.",
-            skills: ["AWS", "Docker", "Terraform", "CI/CD", "Linux"],
-          },
-        ];
+        // Step 1: Extract skills from PDF resume
+        skillsToUse = await uploadResumeAndExtractSkills(formData.resume);
+        if (!skillsToUse.length)
+          throw new Error("No skills extracted from resume");
       } else {
-        // Manual form-based mock recommendation
-        mockRecommendations = [
-          {
-            role: "Senior Cloud Engineer",
-            description:
-              "Design, deploy, and optimize cloud infrastructure for scalable enterprise applications.",
-            skills: [
-              "AWS",
-              "Docker",
-              "Terraform",
-              "Linux",
-              "CI/CD",
-              "Kubernetes",
-            ],
-          },
-          {
-            role: "Full Stack Developer",
-            description:
-              "Develop dynamic web applications using modern frontend and backend frameworks.",
-            skills: [
-              "React",
-              "Node.js",
-              "TypeScript",
-              "MongoDB",
-              "Next.js",
-              "Tailwind CSS",
-            ],
-          },
-        ];
+        // Step 2: Use manually selected skills
+        skillsToUse = formData.skills;
       }
 
-      setRecommendations(mockRecommendations);
+      // Step 3: Get recommendations
+      const results = await getRecommendations(skillsToUse);
+
+      setRecommendations(results);
       setShowResults(true);
+    } catch (error) {
+      console.error("Error in recommendation flow:", error);
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   const canSubmit =
@@ -395,55 +618,276 @@ export default function ProfessionalZone() {
             </div>
           </div>
 
-          {/* Results */}
+          {/* Results Section */}
+          {/* Results Section */}
           <div className="space-y-6">
-            {showResults && recommendations.length > 0 ? (
+            {showResults &&
+            (frameworks.length > 0 || recommendations.length > 0) ? (
               <>
-                <div className="flex items-center gap-3 mb-6">
-                  <TrendingUp className="h-6 w-6 text-green-600" />
-                  <h3 className="text-2xl font-bold text-gray-800">
-                    Recommended Career Roles
-                  </h3>
-                </div>
-                {recommendations.map((rec, index) => (
-                  <div
-                    key={rec.role}
-                    className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-xl p-6 border border-gray-200 hover:border-blue-400 transition-all duration-300 hover:shadow-2xl"
-                  >
-                    <h4 className="text-xl font-bold text-gray-800 mb-2">
-                      {index + 1}. {rec.role}
-                    </h4>
-                    <p className="text-gray-600 text-sm mb-3">
-                      {rec.description}
-                    </p>
-                    <h5 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                      <BookOpen className="h-4 w-4" /> Recommended Skills:
-                    </h5>
+                {/* 🧩 Frameworks Section */}
+                {frameworks.length > 0 && (
+                  <div className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-xl p-6 border border-gray-200">
+                    <h3 className="text-xl font-bold text-gray-800 mb-3 flex items-center gap-2">
+                      <BookOpen className="h-5 w-5 text-green-600" />
+                      Frameworks Recommended Based on Your Languages
+                    </h3>
                     <div className="flex flex-wrap gap-2">
-                      {rec.skills.map((skill, skillIndex) => (
+                      {frameworks.map((fw, i) => (
                         <span
-                          key={skillIndex}
-                          className="bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800 px-3 py-1.5 rounded-lg text-sm font-medium border border-blue-300 shadow-sm"
+                          key={i}
+                          className="bg-gradient-to-r from-green-100 to-teal-100 text-green-800 px-3 py-1.5 rounded-lg text-sm font-medium border border-green-300 shadow-sm"
                         >
-                          {skill}
+                          {fw}
                         </span>
                       ))}
                     </div>
                   </div>
-                ))}
+                )}
+
+                {/* 💡 Recommended Tech Stacks */}
+                {recommendations.length > 0 && (
+                  <>
+                    <div className="flex items-center gap-3 mb-6">
+                      <TrendingUp className="h-6 w-6 text-green-600" />
+                      <h3 className="text-2xl font-bold text-gray-800">
+                        Recommended Tech Stacks
+                      </h3>
+                    </div>
+
+                    {recommendations.map((rec, index) => (
+                      <div
+                        key={rec.stack}
+                        className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-xl p-6 border border-gray-200 hover:border-blue-400 transition-all duration-300 hover:shadow-2xl"
+                      >
+                        <h4 className="text-xl font-bold text-gray-800 mb-4">
+                          {index + 1}. {rec.stack}
+                        </h4>
+
+                        {/* 🔹 Top Tech Buttons */}
+                        <h5 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                          <BookOpen className="h-4 w-4" /> Top Techs:
+                        </h5>
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {rec.top_techs.map((tech, techIndex) => (
+                            <button
+                              key={techIndex}
+                              onClick={() =>
+                                (window.location.href = `/techcompany?tech=${encodeURIComponent(
+                                  tech
+                                )}`)
+                              }
+                              className="bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800 px-3 py-1.5 rounded-lg text-sm font-medium border border-blue-300 shadow-sm hover:scale-105 hover:from-blue-200 hover:to-purple-200 transition-all"
+                            >
+                              {tech}
+                            </button>
+                          ))}
+                        </div>
+
+                        {/* 🔹 Learn Next */}
+                        <h5 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                          <BookOpen className="h-4 w-4" /> Learn Next:
+                        </h5>
+                        <div className="flex flex-wrap gap-2">
+                          {rec.learn_next.map((tech, techIndex) => (
+                            <span
+                              key={techIndex}
+                              className="bg-gradient-to-r from-green-100 to-teal-100 text-green-800 px-3 py-1.5 rounded-lg text-sm font-medium border border-green-300 shadow-sm"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                )}
+                {/* 💼 What Fits You Best */}
+                {fitRecommendations.length > 0 && (
+                  <div className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-xl p-6 border border-gray-200">
+                    <div className="flex items-center gap-3 mb-6">
+                      <TrendingUp className="h-6 w-6 text-blue-600" />
+                      <h3 className="text-2xl font-bold text-gray-800">
+                        What Fits You Best
+                      </h3>
+                    </div>
+
+                    {fitRecommendations.slice(0, 1).map((rec, index) => (
+                      <div
+                        key={rec.stack}
+                        className="bg-white/80 rounded-2xl border border-gray-200 p-5 mb-4 hover:border-blue-400 transition-all duration-300 hover:shadow-xl"
+                      >
+                        <h4 className="text-lg font-bold text-gray-800 mb-2">
+                          {index + 1}. {rec.stack}
+                        </h4>
+
+                        {/* 🔹 Top Techs */}
+                        <h5 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                          <BookOpen className="h-4 w-4" /> Top Techs:
+                        </h5>
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {rec.top_techs.map((tech, i) => (
+                            <button
+                              key={i}
+                              onClick={() =>
+                                (window.location.href = `/techcompany?tech=${encodeURIComponent(
+                                  tech
+                                )}`)
+                              }
+                              className="bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800 px-3 py-1.5 rounded-lg text-sm font-medium border border-blue-300 shadow-sm hover:scale-105 transition-all"
+                            >
+                              {tech}
+                            </button>
+                          ))}
+                        </div>
+
+                        {/* 🔹 Learn Next */}
+                        <h5 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                          <BookOpen className="h-4 w-4" /> Learn Next:
+                        </h5>
+                        <div className="flex flex-wrap gap-2">
+                          {rec.learn_next.map((tech, i) => (
+                            <span
+                              key={i}
+                              className="bg-gradient-to-r from-green-100 to-teal-100 text-green-800 px-3 py-1.5 rounded-lg text-sm font-medium border border-green-300 shadow-sm"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* 🌱 Best for Growth */}
+                {growthRecommendations.length > 0 && (
+                  <div className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-xl p-6 border border-gray-200">
+                    <div className="flex items-center gap-3 mb-6">
+                      <TrendingUp className="h-6 w-6 text-green-600" />
+                      <h3 className="text-2xl font-bold text-gray-800">
+                        Best for Growth
+                      </h3>
+                    </div>
+
+                    {growthRecommendations.slice(1, 2).map((rec, index) => (
+                      <div
+                        key={rec.stack}
+                        className="bg-white/80 rounded-2xl border border-gray-200 p-5 mb-4 hover:border-green-400 transition-all duration-300 hover:shadow-xl"
+                      >
+                        <h4 className="text-lg font-bold text-gray-800 mb-2">
+                          {index + 1}. {rec.stack}
+                        </h4>
+
+                        {/* 🔹 Top Techs */}
+                        <h5 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                          <BookOpen className="h-4 w-4" /> Top Techs:
+                        </h5>
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {rec.top_techs.map((tech, i) => (
+                            <button
+                              key={i}
+                              onClick={() =>
+                                (window.location.href = `/techcompany?tech=${encodeURIComponent(
+                                  tech
+                                )}`)
+                              }
+                              className="bg-gradient-to-r from-green-100 to-teal-100 text-green-800 px-3 py-1.5 rounded-lg text-sm font-medium border border-green-300 shadow-sm hover:scale-105 transition-all"
+                            >
+                              {tech}
+                            </button>
+                          ))}
+                        </div>
+
+                        {/* 🔹 Learn Next */}
+                        <h5 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                          <BookOpen className="h-4 w-4" /> Learn Next:
+                        </h5>
+                        <div className="flex flex-wrap gap-2">
+                          {rec.learn_next.map((tech, techIndex) => (
+                            <span
+                              key={techIndex}
+                              className="bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800 px-3 py-1.5 rounded-lg text-sm font-medium border border-blue-300 shadow-sm"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </>
             ) : (
-              <div className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-xl p-12 text-center border border-gray-200">
-                <div className="text-gray-400 mb-6">
-                  <Briefcase className="h-20 w-20 mx-auto" />
+              <div className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-xl p-12 border border-gray-200">
+                <div className="flex flex-col items-center justify-center text-center space-y-6">
+                  {/* Animated Professional Icon */}
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full blur-xl opacity-30 animate-pulse"></div>
+                    <div className="relative bg-gradient-to-br from-blue-100 to-purple-100 p-6 rounded-full">
+                      <Briefcase className="h-16 w-16 text-blue-600" />
+                    </div>
+                  </div>
+
+                  {/* Title + Description */}
+                  <div className="space-y-3">
+                    <h3 className="text-2xl font-bold text-gray-800">
+                      Advance Your Professional Journey
+                    </h3>
+                    <p className="text-gray-600 max-w-md">
+                      Upload your resume or fill in your role, skills, and
+                      experience. We will recommend the best tech stacks and
+                      tools to accelerate your career growth.
+                    </p>
+                  </div>
+
+                  {/* Steps Section */}
+                  <div className="grid grid-cols-3 gap-6 w-full max-w-xl mt-4">
+                    {/* Step 1 */}
+                    <div className="flex flex-col items-center gap-3 p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl border border-blue-200">
+                      <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+                        1
+                      </div>
+                      <div className="text-center">
+                        <p className="text-sm font-semibold text-gray-800">
+                          Upload Resume
+                        </p>
+                        <p className="text-xs text-gray-600 mt-1">
+                          Extract your professional skills
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Step 2 */}
+                    <div className="flex flex-col items-center gap-3 p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl border border-purple-200">
+                      <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+                        2
+                      </div>
+                      <div className="text-center">
+                        <p className="text-sm font-semibold text-gray-800">
+                          Add Details
+                        </p>
+                        <p className="text-xs text-gray-600 mt-1">
+                          Role, experience & country
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Step 3 */}
+                    <div className="flex flex-col items-center gap-3 p-4 bg-gradient-to-br from-pink-50 to-pink-100 rounded-xl border border-pink-200">
+                      <div className="w-10 h-10 bg-gradient-to-br from-pink-500 to-pink-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+                        3
+                      </div>
+                      <div className="text-center">
+                        <p className="text-sm font-semibold text-gray-800">
+                          Get Recommendations
+                        </p>
+                        <p className="text-xs text-gray-600 mt-1">
+                          Tailored stacks for your growth
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="text-2xl font-semibold text-gray-800 mb-3">
-                  Ready to advance your career?
-                </h3>
-                <p className="text-gray-600 max-w-md mx-auto">
-                  Upload your resume or fill in your country, experience, and
-                  skills to get personalized career role recommendations.
-                </p>
               </div>
             )}
           </div>
