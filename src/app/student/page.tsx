@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+
 import {
   GraduationCap,
   Globe,
@@ -20,6 +22,7 @@ interface Recommendation {
 }
 
 export default function StudentZone() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     country: "",
     interests: [] as string[],
@@ -311,12 +314,15 @@ export default function StudentZone() {
                     </h3>
                     <div className="flex flex-wrap gap-2">
                       {frameworks.map((fw, i) => (
-                        <span
+                        <button
                           key={i}
-                          className="bg-gradient-to-r from-green-100 to-teal-100 text-green-800 px-3 py-1.5 rounded-lg text-sm font-medium border border-green-300 shadow-sm"
+                          onClick={() =>
+                            router.push(`/tech/${encodeURIComponent(fw)}`)
+                          }
+                          className="bg-gradient-to-r from-green-100 to-teal-100 text-green-800 px-3 py-1.5 rounded-lg text-sm font-medium border border-green-300 shadow-sm hover:scale-105 hover:from-green-200 hover:to-teal-200 transition-all"
                         >
                           {fw}
-                        </span>
+                        </button>
                       ))}
                     </div>
                   </div>
@@ -350,7 +356,7 @@ export default function StudentZone() {
                             <button
                               key={techIndex}
                               onClick={() =>
-                                alert(`Navigating to tech: ${tech}`)
+                                router.push(`/tech/${encodeURIComponent(tech)}`)
                               }
                               className="bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800 px-3 py-1.5 rounded-lg text-sm font-medium border border-blue-300 shadow-sm hover:scale-105 hover:from-blue-200 hover:to-purple-200 transition-all"
                             >

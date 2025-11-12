@@ -13,8 +13,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "StackPilot",
+  title: "StackSense",
   description: "Personalized tech stack recommendations for India",
+  icons: {
+    icon: "/test2.svg", // 👈 Path inside /public
+  },
 };
 
 export const viewport = {

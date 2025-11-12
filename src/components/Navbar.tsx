@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Compass } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
-
+import Image from "next/image";
+import Link from "next/link";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -21,17 +21,19 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2 group">
-            <motion.div
-              className="flex items-center space-x-2"
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Compass className="h-8 w-8 text-blue-600 group-hover:text-blue-500 transition-colors" />
-              <span className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors">
-                StackPilot
+          <Link href="/" className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
+              <Image
+                src="/test2.svg"
+                alt="StackSense logo"
+                width={28}
+                height={28}
+                priority
+              />
+              <span className="text-xl font-bold text-gray-900 tracking-tight">
+                Stack<span className="text-blue-600">Sense</span>
               </span>
-            </motion.div>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
