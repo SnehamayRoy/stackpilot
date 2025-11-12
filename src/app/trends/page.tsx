@@ -239,30 +239,32 @@ const baseAnimation = {
   easing: "easeInOutCubic" as const,
 };
 
-const commonOptions: Partial<ChartOptions> = {
-  responsive: true,
-  maintainAspectRatio: false,
-  animation: baseAnimation,
-  plugins: {
-    legend: {
-      position: "bottom",
-      labels: {
-        usePointStyle: true,
-        padding: 15,
-        font: { size: 11, weight: "500" },
+const buildCommonOptions = <T extends ChartType>(): ChartOptions<T> =>
+  ({
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: baseAnimation as any,
+    plugins: {
+      legend: {
+        position: "bottom",
+        labels: {
+          usePointStyle: true,
+          padding: 15,
+          font: { size: 11, weight: 500 },
+        },
+      },
+      tooltip: {
+        mode: "index",
+        intersect: false,
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
+        padding: 12,
+        cornerRadius: 8,
+        titleFont: { size: 13, weight: "bold" },
+        bodyFont: { size: 12 },
       },
     },
-    tooltip: {
-      mode: "index",
-      intersect: false,
-      backgroundColor: "rgba(0, 0, 0, 0.8)",
-      padding: 12,
-      cornerRadius: 8,
-      titleFont: { size: 13, weight: "bold" },
-      bodyFont: { size: 12 },
-    },
-  },
-};
+  } as ChartOptions<T>);
+
 
 const createLineData = (data: {
   labels: string[];
@@ -334,12 +336,15 @@ export default function TrendsPage() {
   );
 
   const lineOptions: ChartOptions<"line"> = {
-    ...commonOptions,
+    ...buildCommonOptions<"line">(),
     scales: {
       y: {
         beginAtZero: false,
         grid: { color: "rgba(0, 0, 0, 0.05)" },
-        ticks: { callback: (value) => value + "%", font: { size: 11 } },
+        ticks: {
+          callback: (value: number | string) => `${value}%`,
+          font: { size: 11 },
+        },
       },
       x: {
         grid: { display: false },
@@ -349,12 +354,15 @@ export default function TrendsPage() {
   };
 
   const barOptions: ChartOptions<"bar"> = {
-    ...commonOptions,
+    ...buildCommonOptions<"bar">(),
     scales: {
       y: {
         beginAtZero: true,
         grid: { color: "rgba(0, 0, 0, 0.05)" },
-        ticks: { callback: (value) => value + "%", font: { size: 11 } },
+        ticks: {
+          callback: (value: number | string) => `${value}%`,
+          font: { size: 11 },
+        },
       },
       x: {
         grid: { display: false },
@@ -364,16 +372,16 @@ export default function TrendsPage() {
   };
 
   const doughnutOptions: ChartOptions<"doughnut"> = {
-    ...commonOptions,
+    ...buildCommonOptions<"doughnut">(),
     cutout: "65%",
     plugins: {
-      ...commonOptions.plugins,
+      ...buildCommonOptions<"doughnut">().plugins,
       legend: {
         position: "right",
         labels: {
           usePointStyle: true,
           padding: 12,
-          font: { size: 11, weight: "500" },
+          font: { size: 11, weight: 500 },
         },
       },
     },
